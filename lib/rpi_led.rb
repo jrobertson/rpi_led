@@ -7,13 +7,14 @@ require 'rpi_pwm'
 
 class RPiLed < RPiPwm
 
+
   attr_accessor :brightness
 
   def initialize(pin_num, brightness: 100, smooth: true)
 
     @smooth = smooth
     @brightness = @duty_cycle
-    super(pin_num, duty_cycle: brightness)
+    super(pin_num.to_i, duty_cycle: brightness)
 
   end
 
