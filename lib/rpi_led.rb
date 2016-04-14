@@ -13,8 +13,8 @@ class RPiLed < RPiPwm
   def initialize(pin_num, brightness: 100, smooth: true)
 
     @smooth = smooth
-    @brightness = @duty_cycle
     super(pin_num.to_i, duty_cycle: brightness)
+    @brightness = @duty_cycle
 
   end
 
@@ -31,8 +31,10 @@ class RPiLed < RPiPwm
   end
 
   def brightness=(val)
+    
+    @brightness = val.round(2)
 
-    return self.duty_cycle = val unless @smooth
+    return self.duty_cycle = val  unless @smooth
 
     a = if val > @duty_cycle then
       (@duty_cycle..val).step(0.01).to_a
@@ -42,7 +44,7 @@ class RPiLed < RPiPwm
 
     duration = 1.5 / a.length
     a.each {|x| self.duty_cycle = x; sleep duration }
-    @brightness = val.round(2)
+    
 
   end
 
