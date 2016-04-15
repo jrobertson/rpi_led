@@ -10,9 +10,9 @@ class RPiLed < RPiPwm
 
   attr_accessor :brightness
 
-  def initialize(pin_num, brightness: 100, smooth: true)
+  def initialize(pin_num, brightness: 100, smooth: true, transition_time: 1.5)
 
-    @smooth = smooth
+    @smooth, @transition_time = smooth, transition_time
     super(pin_num.to_i, duty_cycle: brightness)
     @brightness = @duty_cycle
 
@@ -42,8 +42,8 @@ class RPiLed < RPiPwm
       (val..@duty_cycle).step(0.01).to_a.reverse
     end
 
-    duration = 1.5 / a.length
-    a.each {|x| self.duty_cycle = x; sleep duration }
+    duration = @transition_time / a.length
+    Thread.new { a.each {|x| self.duty_cycle = x; sleep duration } }
     
 
   end
