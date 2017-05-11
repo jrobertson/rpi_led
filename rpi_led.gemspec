@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'rpi_led'
-  s.version = '0.1.3'
+  s.version = '0.1.4'
   s.summary = 'Control the brightness of an LED (connected via GPIO) on a Raspberry Pi.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/rpi_led.rb']
@@ -8,6 +8,6 @@ Gem::Specification.new do |s|
   s.signing_key = '../privatekeys/rpi_led.pem'
   s.cert_chain  = ['gem-public_cert.pem']
   s.license = 'MIT'
-  s.email = 'james@r0bertson.co.uk'
+  s.email = 'james@jamesrobertson.eu'
   s.homepage = 'https://github.com/jrobertson/rpi_led'
 end

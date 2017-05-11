@@ -61,4 +61,81 @@ class RPiLed < RPiPwm
   def dimmest()
     self.brightness = 0.1
   end
+  
+  def dimmer_on()
+    
+    @pwm.start 0
+    @pwm.frequency = 5
+    @pwm.duty_cycle = 0.001
+    sleep 0.5
+    @pwm.frequency = 50
+    sleep 0.2
+    @pwm.duty_cycle = 0.006
+    # dim
+    @pwm.frequency = 70
+    (0.125..1).step(0.06) do |x|
+      @pwm.duty_cycle = x
+      sleep 0.06
+    end
+    @pwm.frequency = 100
+
+    # up to 10% duty cycle (bright)
+
+    (1..10).step(0.125) do |x|
+      @pwm.duty_cycle = x
+      sleep 0.05
+    end
+
+    # up to 50% duty cycle (brighter)
+
+    (10..50).step(0.125) do |x|
+      @pwm.duty_cycle = x
+      sleep 0.01
+    end
+
+    # up to 100% duty cycle (brightest)
+
+    (50..100).step(0.25) do |x|
+      @pwm.duty_cycle = x
+      sleep 0.007
+    end
+
+
+    @pwm.duty_cycle = 100    
+  end
+  
+  def dimmer_off()
+    
+    # up to 100% duty cycle (brightest)
+
+    (50..100).step(0.25).to_a.reverse.each do |x|
+      @pwm.duty_cycle = x
+      sleep 0.006
+    end
+
+
+    # up to 50% duty cycle (brighter)
+
+    (10..50).step(0.125).to_a.reverse.each do |x|
+      @pwm.duty_cycle = x
+      sleep 0.007
+    end
+
+    # up to 10% duty cycle (bright)
+
+    (0.8..10).step(0.125).to_a.reverse.each do |x|
+      @pwm.duty_cycle = x
+      sleep 0.0085
+    end
+
+    @pwm.frequency = 40
+    (0.125..0.8).step(0.06).to_a.reverse.each do |x|
+      @pwm.duty_cycle = x
+      sleep 0.006
+    end
+    @pwm.duty_cycle = 0.01
+    @pwm.frequency = 10
+    sleep 1.0
+    @pwm.stop
+  end  
 end
